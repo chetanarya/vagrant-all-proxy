@@ -7,15 +7,15 @@
 # you're doing.
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
-  config.vm.network "public_network"
-  config.vm.network "private_network", type: "dhcp"
+  config.vm.provision "shell", path: "provision.sh"
+  config.vm.hostname="all-proxy"
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.network :forwarded_port, host: 3142, guest: 3142
+  #config.vm.network :forwarded_port, host: 9090, guest: 9090
+  config.vm.network :forwarded_port, host: 8081, guest: 8081
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "apt-cacher"
-    vb.memory = 256
+    vb.name = "all-proxy"
+    vb.memory = 2048
     vb.cpus = 1
   end    
 end
-#once install need to configure apt-cache as in http://www.tecmint.com/apt-cache-server-in-ubuntu/ and 
-#we have working stuff in mylaptop:3142
